@@ -1,0 +1,32 @@
+{
+  "name": "xbacked-vault-liquidator",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YinkaEnoch/xbacked-vault-liquidator.git"
+  },
+  "keywords": [],
+  "author": "Yinka Enoch Adedokun <adedokunyinkaenoch@gmail.com> (https://yinkaenoch.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YinkaEnoch/xbacked-vault-liquidator/issues"
+  },
+  "homepage": "https://github.com/YinkaEnoch/xbacked-vault-liquidator#readme",
+  "dependencies": {
+    "@xbacked-dao/xbacked-sdk": "^0.0.30",
+    "dotenv": "^16.0.0",
+    "mongoose": "^6.3.1",
+    "redis": "^4.0.6"
+  },
+  "imports": {
+    "#Models/*": "./models/*",
+    "#Services/*": "./services/*"
+  }
+}
