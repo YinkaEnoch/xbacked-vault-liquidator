@@ -1,6 +1,11 @@
+/**
+ * SEEDER
+ * Fetch all open vaults and save their liquidation price in DB
+ * */
+
 import "dotenv/config";
 import redis from "redis";
-import { GetOpenVaults, GetUserInfo } from "./utils.js";
+import { GetOpenVaults, GetUserInfo, lqPriceCalc } from "./utils.js";
 import { CreateAccount } from "#Services/Account.service.js";
 
 const seeder = async () => {
@@ -32,10 +37,10 @@ const seeder = async () => {
       if (!userInfo.vaultFound) continue;
 
       // Calculate liquidating price
-      const lqPrice =
-        (process.env.LQ_PERCENT * userInfo.vaultDebt) /
-        userInfo.collateral /
-        100;
+      const lqPrice = lqPriceCalc({
+        vaultDebt: userInfo.vaultDebt,
+        collateral: userInfo.collateral,
+      });
 
       // Store data in DB
       const status = await CreateAccount({ address, lqPrice });

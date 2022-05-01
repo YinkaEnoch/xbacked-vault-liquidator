@@ -6,12 +6,14 @@ import {
   getOpenVaults,
 } from "@xbacked-dao/xbacked-sdk";
 
-const account = new Account({
+export const account = new Account({
   mnemonic: process.env.PASS_PHRASE,
   network: process.env.NETWORK,
 });
 
-const vault = new Vault({ id: VAULT_IDS.TestNet.algo });
+export const vaultId = VAULT_IDS.TestNet.algo;
+
+export const vault = new Vault({ id: vaultId });
 
 // Additional option
 const vaultOpts = {};
@@ -36,3 +38,7 @@ export const GetOpenVaults = async () =>
 // Get user info for an address
 export const GetUserInfo = async (address) =>
   await account.getUserInfo({ vault, address });
+
+// Calculate liquidating price
+export const lqPriceCalc = ({ vaultDebt, collateral }) =>
+  (process.env.LQ_PERCENT * vaultDebt) / collateral / 100;
