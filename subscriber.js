@@ -7,14 +7,15 @@
 
 import { CreateAccount } from "#Services/Account.service.js";
 import { account, vaultId, lqPriceCalc } from "./utils.js";
+import { chalkInfo, chalkSuccess } from "./chalk.js";
+const log = console.log;
 
 (async () => {
-  console.log(await account.getBalance({ tokenId: 62281549 }));
-  console.log("Subscribing to vault events...");
+  log(chalkInfo("Subscribing to vault events..."));
   await account.subscribeToEvents({
     vaultId,
     createCallback: async (address, vaultState) => {
-      console.log("New Account created!!");
+      log(chalkSuccess("New Account created!!"));
 
       // Calculate liquidating price
       const lqPrice = lqPriceCalc({
@@ -24,10 +25,10 @@ import { account, vaultId, lqPriceCalc } from "./utils.js";
 
       // Store data in DB
       const status = await CreateAccount({ address, lqPrice });
-      console.log(status);
+      log(chalkInfo(status));
     },
     transactionCallback: async (address, vaultState) => {
-      console.log("New transaction detected!!");
+      log(chalkSuccess("New transaction detected!!"));
 
       // Calculate liquidating price
       const lqPrice = lqPriceCalc({
@@ -37,7 +38,7 @@ import { account, vaultId, lqPriceCalc } from "./utils.js";
 
       // Store data in DB
       const status = await CreateAccount({ address, lqPrice });
-      console.log(status);
+      log(chalkInfo(status));
     },
   });
 })().catch((e) => console.log(e));

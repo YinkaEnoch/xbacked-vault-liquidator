@@ -1,3 +1,8 @@
+/**
+ * LIQUIDATOR
+ * Liquidate a specified address
+ * */
+
 import { account, vault } from "./utils.js";
 
 const Liquidator = async ({ address, debtAmount }) => {
@@ -10,7 +15,7 @@ const Liquidator = async ({ address, debtAmount }) => {
 
     return { code: 0, type: "OK", message: lqStatus };
   } catch (e) {
-    return { code: 1, type: "ERR", message: e };
+    return { code: 1, type: "ERR", message: e.toString() };
   }
 };
 

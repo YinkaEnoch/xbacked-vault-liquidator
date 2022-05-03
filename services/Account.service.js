@@ -55,7 +55,7 @@ const getAddress = async (address) => {
 const GetAccounts = async (currPrice) => {
   try {
     const accounts = await Account.find({
-      liquidationPrice: { $lte: currPrice },
+      liquidationPrice: { $gte: currPrice },
     });
     return accounts;
   } catch (e) {
