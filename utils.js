@@ -40,5 +40,6 @@ export const GetUserInfo = async (address) =>
   await account.getUserInfo({ vault, address });
 
 // Calculate liquidating price
+const LQ_COLLATERAL_RATIO = process.env.LQ_COLLATERAL_RATIO || 110;
 export const lqPriceCalc = ({ vaultDebt, collateral }) =>
-  (process.env.LQ_PERCENT * vaultDebt) / collateral / 100;
+  (LQ_COLLATERAL_RATIO * vaultDebt) / collateral / 100;

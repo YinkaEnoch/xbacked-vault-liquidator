@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start-seeder": "node seeder.js",
+    "start-subscriber": "node subscriber.js",
+    "start-checker": "node priceChecker.js",
+    "start": "concurrently --timings \"npm:start-*\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
   "dependencies": {
     "@xbacked-dao/xbacked-sdk": "^0.0.30",
     "chalk": "^5.0.1",
+    "concurrently": "^7.1.0",
     "dotenv": "^16.0.0",
     "mongoose": "^6.3.1",
     "redis": "^4.0.6"

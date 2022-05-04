@@ -12,7 +12,12 @@ const log = console.log;
 
 const seeder = async () => {
   try {
-    const redisClient = redis.createClient(process.env.REDIS_PORT);
+    let redisClient;
+    if (process.env.REDIS_URL) {
+      redisClient = redis.createClient({ url: process.env.REDIS_URL });
+    } else {
+      redisClient = redis.createClient();
+    }
 
     redisClient.on("connect", () =>
       log(chalkSuccess("Redis connection successful ;)"))
@@ -23,7 +28,7 @@ const seeder = async () => {
 
     //Get open vaults
     const openVaults = await GetOpenVaults();
-    console.log(chalkInfo(`Got ${openVaults.length} vaults`));
+    log(chalkInfo(`Got ${openVaults.length} vaults`));
 
     // Store open vaults in redis
     log(chalkInfo("Storing returned vaults in redis..."));
@@ -46,7 +51,11 @@ const seeder = async () => {
 
       // Store data in DB
       const status = await CreateAccount({ address, lqPrice });
-      console.log(status);
+      if (status.code == 0) {
+        log(chalkSuccess(status.message));
+      } else {
+        log(chalkDanger(status.message));
+      }
     }
 
     // Delete redis key
@@ -55,10 +64,10 @@ const seeder = async () => {
     // Close redis
     await redisClient.quit();
 
-    console.log("Seeding is successful!!");
+    log(chalkSuccess("Seeding is successful!!"));
   } catch (e) {
-    console.log(e);
+    log(chalkDanger(e));
   }
 };
 
-seeder().catch((e) => console.log(e));
+seeder().catch((e) => log(chalkDanger(e)));

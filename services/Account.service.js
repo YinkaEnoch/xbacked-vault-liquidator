@@ -2,9 +2,11 @@ import { Account } from "#Models/index.js";
 
 // Create a new account
 const CreateAccount = async ({ address, lqPrice }) => {
+  console.log({ address, lqPrice });
   try {
     // Check if address exist
     const account = await getAddress(address);
+    console.log(account);
 
     // Create new account
     if (!account) {

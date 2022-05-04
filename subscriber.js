@@ -7,7 +7,7 @@
 
 import { CreateAccount } from "#Services/Account.service.js";
 import { account, vaultId, lqPriceCalc } from "./utils.js";
-import { chalkInfo, chalkSuccess } from "./chalk.js";
+import { chalkInfo, chalkSuccess, chalkDanger } from "./chalk.js";
 const log = console.log;
 
 (async () => {
@@ -25,7 +25,11 @@ const log = console.log;
 
       // Store data in DB
       const status = await CreateAccount({ address, lqPrice });
-      log(chalkInfo(status));
+      if (status.code == 0) {
+        log(chalkSuccess(status.message));
+      } else {
+        log(chalkDanger(status.message));
+      }
     },
     transactionCallback: async (address, vaultState) => {
       log(chalkSuccess("New transaction detected!!"));
@@ -38,7 +42,11 @@ const log = console.log;
 
       // Store data in DB
       const status = await CreateAccount({ address, lqPrice });
-      log(chalkInfo(status));
+      if (status.code == 0) {
+        log(chalkSuccess(status.message));
+      } else {
+        log(chalkDanger(status.message));
+      }
     },
   });
-})().catch((e) => console.log(e));
+})().catch((e) => log(chalkDanger(e)));

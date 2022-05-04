@@ -32,6 +32,12 @@ const PriceChecker = async () => {
     )
   );
 
+  // Early termination for no accounts
+  if (accounts.length < 1) {
+    log(chalkInfo("There are no accounts to liquidate!!"));
+    return false;
+  }
+
   // Check for the current state of that address
   // Account details might have changed in the last minutes
   log(chalkInfo("Checking the current state of the addresses..."));
@@ -89,7 +95,7 @@ const PriceChecker = async () => {
     // Liquidate account
     const lqStatus = await Liquidator({
       address: userAccount.value.address,
-      debtAmount: process.env.MINIMUN_LIQUIDATING_AMOUNT,
+      debtAmount: process.env.MINIMUM_LIQUIDATING_AMOUNT,
     });
 
     if (lqStatus.code == 0) {
